@@ -1,100 +1,172 @@
-# Frontend Intern Assignment: Multiple Theme System
+# GoGetWell.ai Theme System Implementation Assignment
 
-## Overview
+## Project Overview
 
-Your task is to enhance the GoGetWell.ai web application by implementing a multiple theme system that will allow the platform to adapt its UI based on different medical specialties. This will improve user experience by providing contextually relevant interfaces for different types of medical treatments.
-
-## Project Setup
-
-Before starting, make sure you have the following installed:
-* Node.js (version 14 or higher)
-* npm (comes with Node.js)
-
-To set up the project:
-1. Clone this repository
-
-```
-git clone [repository-url]
-cd [repository-name]
-```
-
-2. Install dependencies
-
-```
-npm install
-```
-
-3. Start the development server
-
-```
-npm run dev
-```
-
-The application should now be running on `http://localhost:5173` (or another port if 5173 is in use).
+This assignment requires implementing a multi-theme system for the GoGetWell.ai platform to create contextually relevant interfaces for different medical specialties. The theme system should allow easy switching between themes and provide a consistent look and feel across all pages.
 
 ## Requirements
 
-### 1. Create Two Specialty-Based Themes
+### Features to Implement
 
-Develop two complete themes for the following medical specialties:
-- **Organ Transplant Theme**: A theme with a focus on trust, expertise, and precision
-- **Cosmetic Surgery Theme**: A theme emphasizing aesthetics, transformation, and modern techniques
+1. **Menu Bar Navigation**
+   - Create a navigation menu bar with two options:
+     - Home (already implemented)
+     - Themes (to be created)
 
-### 2. Theme Components
+2. **Themes Page**
+   - Create a new "Themes" page at `src/views/Home/themes/`
+   - This page should display all available themes
+   - Allow users to preview and select different themes
 
-Each theme must include the following customizable elements:
+3. **Multiple Theme Implementation**
+   - Implement 3 themes in total:
+     - Default theme (already exists)
+     - 2 new themes focusing on different medical specialties (e.g., Organ Transplant, Cosmetic Surgery)
 
-- **Color Scheme**: Primary, secondary, accent, and background colors
-- **Typography**: Font families, sizes, and weights for different text elements
-- **UI Elements**: Buttons, cards, icons, and form elements
-- **Hero Banners**: Specialty-specific hero images and messaging
-- **Illustrations**: Relevant graphics that match each specialty
-- **Marketing Copy**: Tailored testimonials and value propositions
+4. **Theme Configuration**
+   - Use Zustand for state management
+   - Configure Zustand to persist theme selection in localStorage
+   - Apply the selected theme globally throughout the application
 
-### 3. Theme Implementation
+5. **Theme Components**
+   - Each theme should include:
+     - Color scheme variations
+     - Typography changes
+     - UI element styling (buttons, cards, forms)
+     - Custom hero sections
+     - Custom menu bar styling
 
-Based on analysis of the existing codebase, you should:
+6. **Theme Color Configuration**
+   - Implement Tailwind configuration for theme colors
+   - Allow dynamic color switching between themes
 
-1. Create a new directory structure at `src/views/home/themes/` for theme assets
-2. Extend the existing theme configuration in `src/store/themeStore.ts`
-3. Update `src/configs/theme.config.ts` to include new theme options
-4. Create a theme selector component for the UI
+## Technical Setup
 
-## Technical Guidelines
+### Prerequisites
+
+- Docker
+- Node.js (v14+)
+- npm (v6+)
+
+### Project Setup
+
+1. Clone the repository
+   ```bash
+   git clone [repository-url]
+   cd [repository-name]
+   ```
+
+2. Install dependencies
+   ```bash
+   npm install
+   ```
+
+3. Set up Docker with Caddy for subdomain handling
+   - Create a `Caddyfile` in the project root with the following content:
+   ```
+   {
+     acme_ca https://acme-v02.api.letsencrypt.org/directory
+   }
+
+   # Wildcard subdomain handling
+   *.localhost {
+     # Add headers to identify the subdomain
+     header {
+       +X-Subdomain {labels.1}
+     }
+     reverse_proxy host.docker.internal:5173
+   }
+
+   # Handle base domain
+   localhost {
+     reverse_proxy host.docker.internal:5173
+   }
+   ```
+
+4. Create a `docker-compose.yml` file with:
+   ```yaml
+   version: '3.8'
+   services:
+     caddy:
+       image: caddy:2.7-alpine
+       restart: unless-stopped
+       ports:
+         - "80:80"
+         - "443:443"
+       volumes:
+         - ./Caddyfile:/etc/caddy/Caddyfile:ro
+         - caddy_data:/data
+         - caddy_config:/config
+       extra_hosts:
+         - "host.docker.internal:host-gateway" # This is important for Docker to resolve host machine
+   volumes:
+     caddy_data:
+     caddy_config:
+   ```
+
+5. Start the Docker Caddy server:
+   ```bash
+   docker-compose up -d
+   ```
+
+6. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+7. Access the application via subdomains:
+   - https://demo.localhost
+   - https://demo5.localhost
+   - https://seostore.localhost
+
+## Implementation Guidelines
 
 ### Directory Structure
 
 ```
 src/
+├── @types/
+│   └── theme.ts              # Add specialty theme types
+├── assets/
+│   └── styles/
+│       ├── app.css           # Main CSS file
+│       └── themes.css        # Theme CSS variables
+├── components/
+│   ├── shared/
+│   │   └── ThemeSelector.tsx # Theme switching component
+│   └── template/
+│       └── ThemeProvider.tsx # Theme provider component
+├── configs/
+│   └── theme.config.ts       # Update theme configuration
+├── store/
+│   └── themeStore.ts         # Extend Zustand theme store
 └── views/
-    └── home/
-        └── themes/
-            ├── base/
-            │   ├── colors.ts
-            │   ├── typography.ts
-            │   └── components.ts
-            ├── organ-transplant/
-            │   ├── colors.ts
-            │   ├── typography.ts
-            │   ├── components.ts
-            │   └── assets/
-            │       └── [theme-specific images]
-            └── cosmetic-surgery/
-                ├── colors.ts
-                ├── typography.ts
-                ├── components.ts
-                └── assets/
-                    └── [theme-specific images]
+    └── Home/
+        ├── components/       # Update existing components
+        │   ├── GetInTouch.tsx
+        │   ├── Home.tsx
+        │   └── ...
+        ├── themes/           # Create theme specific components
+        │   ├── base/         # Default theme
+        │   │   ├── colors.ts
+        │   │   └── typography.ts
+        │   ├── theme1/       # First new theme
+        │   │   ├── colors.ts
+        │   │   └── typography.ts
+        │   └── theme2/       # Second new theme
+        │       ├── colors.ts
+        │       └── typography.ts
+        └── index.tsx
 ```
 
-### Theme Store Enhancement
+### Zustand Store Implementation
 
-Modify the existing theme store by updating `src/store/themeStore.ts`. The current implementation uses Zustand. You'll need to extend it to support specialty themes:
+Extend the existing theme store in `src/store/themeStore.ts` to include specialty themes:
 
 ```typescript
 // Example extension for themeStore.ts
 type ThemeState = Theme & {
-  specialty: 'default' | 'organ-transplant' | 'cosmetic-surgery';
+  specialty: 'default' | 'theme1' | 'theme2';
 }
 
 type ThemeAction = {
@@ -116,82 +188,106 @@ export const useThemeStore = create<ThemeState & ThemeAction>()(
 )
 ```
 
-### CSS Implementation
+### Theme Provider Implementation
 
-Build on the existing Tailwind CSS configuration. The current approach uses CSS variables (in `app.css`) for dynamic theming:
+Create a ThemeProvider component to apply theme CSS variables:
 
-1. Extend the CSS variable system for specialty-specific themes
-2. Update the Tailwind configuration to support new theme variables
-3. Create utility classes for theme-specific components
+```typescript
+import React, { useEffect } from 'react'
+import { useThemeStore } from '@/store/themeStore'
 
-## UI Components to Modify
+const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { specialty } = useThemeStore()
+  
+  useEffect(() => {
+    // Apply CSS class based on selected theme
+    document.documentElement.className = `theme-${specialty}`
+  }, [specialty])
+  
+  return <>{children}</>
+}
 
-1. **Hero Section** (`src/views/Home/components/Home.tsx`)
-   - Update imagery and messaging based on theme
-   - Change color schemes and layouts
+export default ThemeProvider
+```
 
-2. **Treatment Cards** (`src/views/Home/components/Treatment.tsx`)
-   - Customize icons and styling for each theme
-   - Highlight relevant specialties based on selected theme
+### Tailwind Configuration
 
-3. **GetInTouch Section** (`src/views/Home/components/GetInTouch.tsx`)
-   - Adjust styling and content based on theme
+Update the Tailwind configuration to use CSS variables for theme colors:
 
-4. **Theme Selector Component** (Create new)
-   - Build a UI element that allows users to switch themes
-   - This should be visible in the header area
+```javascript
+// tailwind.config.cjs
+module.exports = {
+  // ...existing config
+  theme: {
+    extend: {
+      colors: {
+        'primary': 'var(--primary)',
+        'primary-deep': 'var(--primary-deep)',
+        'primary-mild': 'var(--primary-mild)',
+        // ...additional theme colors
+      },
+    },
+  },
+}
+```
 
-## Demonstration Requirements
+### Menu Bar Implementation
 
-Your implementation should demonstrate:
+Create a navigation menu component:
 
-1. **Theme Switching**: Show seamless transitioning between themes
-2. **Responsive Design**: All themes must work on mobile, tablet, and desktop
-3. **Performance Optimization**: Themes should load efficiently without impact on performance
-4. **Proper TypeScript Usage**: Strong typing for all theme-related variables and components
-5. **Code Documentation**: Clear documentation of the theme system
+```tsx
+// src/components/shared/MenuBar.tsx
+import React from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import { useThemeStore } from '@/store/themeStore'
+import ThemeSelector from './ThemeSelector'
 
-## Code Quality Standards
+const MenuBar: React.FC = () => {
+  const location = useLocation()
+  const { specialty } = useThemeStore()
+  
+  return (
+    <nav className={`bg-primary text-white p-4 ${specialty === 'theme1' ? 'theme1-nav' : specialty === 'theme2' ? 'theme2-nav' : ''}`}>
+      <div className="max-w-7xl mx-auto flex justify-between items-center">
+        <div className="flex space-x-4">
+          <Link to="/" className={`px-3 py-2 rounded-md ${location.pathname === '/' ? 'bg-primary-deep' : ''}`}>
+            Home
+          </Link>
+          <Link to="/themes" className={`px-3 py-2 rounded-md ${location.pathname === '/themes' ? 'bg-primary-deep' : ''}`}>
+            Themes
+          </Link>
+        </div>
+        <ThemeSelector />
+      </div>
+    </nav>
+  )
+}
 
-Follow these frontend protocols that are evident in the codebase:
+export default MenuBar
+```
 
-1. **TypeScript**: Use strong typing for all components and functions
-2. **React Best Practices**: 
+## Testing and Deployment
+
+1. **Local Testing**
+   - Test all themes on different screen sizes
+   - Verify theme persistence on page refresh
+   - Check subdomain access via Caddy
+
+2. **Code Standards**
+   - Follow existing project code standards
+   - Use proper TypeScript types
    - Use functional components with hooks
-   - Implement proper component composition
-   - Follow the pattern of using React.FC for component typing
+   - Follow the established design system patterns
+   - Maintain proper component composition
 
-3. **State Management**:
-   - Use Zustand for global state as shown in existing stores
-   - Follow patterns in `src/store/themeStore.ts`
+## Submission Requirements
 
-4. **CSS Methodology**:
-   - Use Tailwind CSS classes following existing patterns
-   - Use CSS variables for theme values
-   - Maintain responsive design patterns
-
-5. **Code Organization**:
-   - Follow the existing project structure
-   - Use proper module exports and imports
-   - Maintain separation of concerns
-
-6. **Testing**:
-   - Write tests for theme-switching functionality
-   - Ensure visual consistency across themes
-
-## Deliverables
-
-1. Complete implementation of two themes (Organ Transplant and Cosmetic Surgery)
-2. Theme selector component in the UI
-3. Documentation of the theme system and how to add new themes
-4. Pull request with your changes following the project's contribution guidelines
-
-## Timeline
-
-- Week 1: Research and design themes, plan implementation
-- Week 2: Implement base theme structure and first theme
-- Week 3: Implement second theme and theme selector
-- Week 4: Testing, documentation, and finalization
+1. Complete code implementation
+2. Documentation of theme system including:
+   - Implementation details
+   - Theme customization guide
+   - Screenshots of different themes
+3. Pull request with your changes following the project's contribution guidelines
 
 ## Resources
 
@@ -200,7 +296,7 @@ Follow these frontend protocols that are evident in the codebase:
 - Tailwind configuration in `tailwind.config.cjs`
 - Component structure in `src/views/Home/components/`
 
-Good luck with your assignment! This project will help you gain valuable experience with React, TypeScript, Tailwind CSS, and theme implementation in a real-world medical application.
+Good luck with your assignment!
 
 Key Features:
 - **Responsive Layout**: Optimized for all screen sizes and devices.
