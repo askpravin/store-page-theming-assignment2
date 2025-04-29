@@ -1,0 +1,99 @@
+/* Store Page Theming - Healthcare Focus */
+
+:root {
+  /* Primary color palette - Soothing purple/blue for healthcare */
+  --primary: #6355a4; /* Main brand color - calming purple */
+  --primary-deep: #4a3f8a; /* Deeper shade for hover states */
+  --primary-mild: #7c6db8; /* Lighter shade for secondary elements */
+  --primary-subtle: #6355a41a; /* Transparent version for backgrounds */
+  
+  /* Secondary colors */
+  --secondary: #f0eafa; /* Light purple background */
+  --secondary-deep: #e0d8f5; /* Deeper secondary for hover states */
+  
+  /* Success/Error states - Medical context appropriate */
+  --success: #10b981; /* Green for positive outcomes */
+  --success-subtle: #05eb7624; /* Transparent success for backgrounds */
+  --error: #ef4444; /* Red for errors/alerts - slightly softer than previous */
+  --error-subtle: #ef44441a; /* Transparent error for backgrounds */
+  
+  /* Info/Warning - Healthcare context */
+  --info: #6355a4; /* Consistent with primary for info messages */
+  --info-subtle: #6355a41a; /* Transparent info for backgrounds */
+  --warning: #f59e0b; /* Amber for warnings */
+  --warning-subtle: #ffd40045; /* Transparent warning for backgrounds */
+  
+  /* Neutral colors remain the same for consistency */
+  --neutral: #ffffff;
+  --gray-50: #fafafa;
+  --gray-100: #f5f5f5;
+  --gray-200: #e5e5e5;
+  --gray-300: #d4d4d4;
+  --gray-400: #a3a3a3;
+  --gray-500: #737373;
+  --gray-600: #525252;
+  --gray-700: #404040;
+  --gray-800: #262626;
+  --gray-900: #171717;
+  --gray-950: #0a0a0a;
+}
+
+/* Treatment cards styling */
+.treatment-card {
+  @apply transition-all duration-300 hover:shadow-md;
+}
+
+.treatment-card-icon {
+  @apply p-2 rounded-lg transition-colors duration-300;
+}
+
+.treatment-card-icon.active {
+  @apply bg-secondary text-primary;
+}
+
+/* Hospital and doctor cards */
+.hospital-card, .doctor-card {
+  @apply bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300;
+}
+
+.hospital-card-image, .doctor-card-image {
+  @apply relative h-48 overflow-hidden;
+}
+
+.hospital-card-image img, .doctor-card-image img {
+  @apply w-full h-full object-cover transition-transform duration-300;
+}
+
+.hospital-card:hover .hospital-card-image img, 
+.doctor-card:hover .doctor-card-image img {
+  @apply scale-110;
+}
+
+/* Custom button styles */
+.btn-gradient {
+  @apply bg-gradient-to-r from-primary-deep to-primary text-white rounded-xl shadow-lg hover:shadow-xl transition-shadow;
+}
+
+/* Profile card styling */
+.profile-card {
+  @apply w-full mx-auto bg-white rounded-xl shadow-lg p-4 md:p-6;
+}
+
+/* Search styling */
+.search-input {
+  @apply border-2 border-gray-200 focus:border-primary focus:ring-1 focus:ring-primary;
+}
+
+/* Custom section headers */
+.section-title {
+  @apply text-2xl sm:text-4xl font-bold text-center mb-8;
+}
+
+/* Dark mode overrides */
+.dark {
+  --primary: #7c6db8; /* Lighter purple for dark mode */
+  --primary-deep: #6355a4; /* Main purple for dark mode */
+  --primary-mild: #9083c9; /* Even lighter for dark mode */
+  --secondary: #2d2a3c; /* Darker purple background for dark mode */
+  --secondary-deep: #201d2b; /* Even darker secondary */
+}
