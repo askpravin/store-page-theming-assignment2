@@ -2,7 +2,8 @@
 
 ## Project Overview
 
-This assignment requires implementing a multi-theme system for the GoGetWell.ai platform to create contextually relevant interfaces for different medical specialties. The theme system should allow easy switching between themes and provide a consistent look and feel across all pages.
+You'll be implementing a comprehensive multi-theme system for our platform that adapts the entire interface based on different medical specialties. This goes beyond simple color changes - each theme should provide a distinct and cohesive user experience tailored to different medical contexts.
+
 
 ## Requirements
 
@@ -35,6 +36,15 @@ This assignment requires implementing a multi-theme system for the GoGetWell.ai 
      - UI element styling (buttons, cards, forms)
      - Custom hero sections
      - Custom menu bar styling
+    
+**Notes**
+ -Each theme must implement comprehensive changes across:
+   -Layout Structure: Different component arrangements and spacing for each theme
+   -Marketing Copy: Theme-specific text content and messaging tailored to each specialty
+   -Color Schemes: Complete color palettes appropriate for each medical context
+   -Typography: Font families, sizes, weights, and line heights that reflect each specialty
+   -UI Elements: Custom-styled buttons, cards, forms, inputs, and interactive elements
+   -Component Variations: Specialty-specific designs for hero sections, testimonials, and CTAs
 
 6. **Theme Color Configuration**
    - Implement Tailwind configuration for theme colors
