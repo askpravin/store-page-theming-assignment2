@@ -1,9 +1,10 @@
-# GoGetWell.ai Theme System Implementation Assignment#2
+# GoGetWell.ai Theme System Implementation Assignment
 
 ## Project Overview
 
 You'll be implementing a comprehensive multi-theme system for our platform that adapts the entire interface based on different medical specialties. This goes beyond simple color changes - each theme should provide a distinct and cohesive user experience tailored to different medical contexts.
 
+The primary objective of this assignment is to evaluate your ability to perform complex frontend tasks.
 
 ## Requirements
 
@@ -37,14 +38,15 @@ You'll be implementing a comprehensive multi-theme system for our platform that 
      - Custom hero sections
      - Custom menu bar styling
     
-**Notes**
- -Each theme must implement comprehensive changes across:
-   -Layout Structure: Different component arrangements and spacing for each theme
-   -Marketing Copy: Theme-specific text content and messaging tailored to each specialty
-   -Color Schemes: Complete color palettes appropriate for each medical context
-   -Typography: Font families, sizes, weights, and line heights that reflect each specialty
-   -UI Elements: Custom-styled buttons, cards, forms, inputs, and interactive elements
-   -Component Variations: Specialty-specific designs for hero sections, testimonials, and CTAs
+**Important Notes:**
+   
+Each theme must implement comprehensive changes across:
+- **Layout Structure:** Different component arrangements and spacing for each theme
+- **Marketing Copy:** Theme-specific text content and messaging tailored to each specialty
+- **Color Schemes:** Complete color palettes appropriate for each medical context
+- **Typography:** Font families, sizes, weights, and line heights that reflect each specialty
+- **UI Elements:** Custom-styled buttons, cards, forms, inputs, and interactive elements
+- **Component Variations:** Specialty-specific designs for hero sections, testimonials, and CTAs
 
 6. **Theme Color Configuration**
    - Implement Tailwind configuration for theme colors
@@ -306,9 +308,8 @@ export default MenuBar
 - Tailwind configuration in `tailwind.config.cjs`
 - Component structure in `src/views/Home/components/`
 
-Good luck with your assignment!
+## Key Features
 
-Key Features:
 - **Responsive Layout**: Optimized for all screen sizes and devices.
 - **Dark/Light Mode**: Easily switch between light and dark themes.
 - **Configurable Themes**: Personalize colors, layouts, and more to fit your needs.
@@ -318,7 +319,8 @@ Key Features:
 - **Tailwind Component-Based Architecture**: Reusable components to streamline your development process.
 - **API Ready**: Simple integration with any RESTful API.
 
+## Guide
 
-### Guide
 Please visit our [Online documentation](https://ecme-react.themenate.net/guide/documentation/introduction) for detailed guides, setup instructions, and customization options.
 
+Good luck with your assignment!
